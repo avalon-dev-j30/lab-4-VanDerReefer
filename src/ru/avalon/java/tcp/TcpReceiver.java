@@ -1,6 +1,7 @@
 package ru.avalon.java.tcp;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -11,15 +12,15 @@ import java.net.Socket;
  * @author Daniel Alpatov
  */
 public final class TcpReceiver {
-
+    
     public static void main(String[] args) throws IOException {
         // 1. Определяем порт, на котором ожидается соединение.
-        final int port = 0;
+        final int port = 11_249;
         // 2. Подготавливаем серверный сокет.
         final ServerSocket listener = prepareServerSocket(port);
         // 3. Принимаем соединение.
         Socket socket = listener.accept();
-        // 4. Полоучаем сообщение.
+        // 4. Получаем сообщение.
         final String message = receive(socket);
         // 5. Закрываем соединение.
         socket.close();
@@ -40,7 +41,13 @@ public final class TcpReceiver {
         /*
          * TODO Реализовать метод prepareServerSocket класса TcpReceiver
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        ServerSocket socket = null;
+        try {
+            socket = new ServerSocket(port);
+        } catch (IOException e) {
+            
+        }
+        return socket;
     }
 
     /**
@@ -51,11 +58,24 @@ public final class TcpReceiver {
      *
      * @return строковое сообщение.
      */
-    private static String receive(Socket socket) {
+    private static String receive(Socket socket) throws IOException {
         /*
          * TODO Реализовать метод receive класса TcpReceiver
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        try (ObjectInputStream ois = 
+                new ObjectInputStream(socket.getInputStream())) {
+            String msg;
+            while (true) {
+                try {
+                    msg = (String) ois.readObject();
+                    System.out.println(msg);
+                    return msg;
+                } catch (ClassNotFoundException ex) {
+                        socket.close();
+                        ex.getMessage();
+                    }
+            }
+        }
     }
 
 }

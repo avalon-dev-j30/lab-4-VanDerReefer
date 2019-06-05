@@ -1,8 +1,14 @@
 package ru.avalon.java.tcp;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 
 /**
  * Упражнение на выработку базовых умений использования
@@ -11,6 +17,11 @@ import java.net.SocketAddress;
  * @author Daniel Alpatov
  */
 public final class TcpSender {
+    
+    protected final static int TCP_PORT = 11_249;
+    private static ObjectOutputStream oos;
+    private static BufferedReader in
+            = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
         // 1. Подготавливааем сообщение
@@ -30,11 +41,12 @@ public final class TcpSender {
      *
      * @return текстовое сообщение.
      */
-    private static String prepareMessage() {
+    private static String prepareMessage() throws IOException {
         /*
-         * TODO Реализовать метод prepareMessage класса TcpSender
+         * TO DO Реализовать метод prepareMessage класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        String message = in.readLine(); 
+        return message;
     }
 
     /**
@@ -42,11 +54,13 @@ public final class TcpSender {
      *
      * @return экземпля типа {@link SocketAddress}
      */
-    private static SocketAddress prepareAddress() {
+    private static SocketAddress prepareAddress() throws UnknownHostException {
         /*
-         * TODO Реализовать метод prepareAddress класса TcpSender
+         * TO DO Реализовать метод prepareAddress класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+       SocketAddress address = 
+               new InetSocketAddress(InetAddress.getLocalHost(), 8080);
+       return address;
     }
 
     /**
@@ -61,9 +75,11 @@ public final class TcpSender {
      */
     private static Socket connect(SocketAddress address) throws IOException {
         /*
-         * TODO Реализовать метод connect класса TcpSender
+         * TO DO Реализовать метод connect класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        Socket socket = new Socket();
+        socket.connect(address);
+        return socket;
     }
 
     /**
@@ -76,9 +92,10 @@ public final class TcpSender {
      */
     private static void send(Socket socket, String message) throws IOException {
         /*
-         * TODO Реализовать метод send класса TcpSender
+         * TO DO Реализовать метод send класса TcpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        oos = new ObjectOutputStream(socket.getOutputStream());
+        oos.writeObject(message);
     }
 
 }

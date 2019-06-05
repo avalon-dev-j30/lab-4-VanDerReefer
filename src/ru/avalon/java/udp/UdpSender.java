@@ -1,9 +1,15 @@
 package ru.avalon.java.udp;
 
+import com.sun.xml.internal.bind.api.Bridge;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 
 /**
  * Упражнение, направленное на выработку умений, связанных
@@ -12,8 +18,13 @@ import java.net.SocketAddress;
  * @author Daniel Alpatov
  */
 public final class UdpSender {
+    
+    private static final int UDP_PORT = 11_248;
+    private static BufferedReader br
+            = new BufferedReader(new InputStreamReader(System.in));
 
     public static void main(String[] args) throws IOException {
+             
         // 1. Формируем сообщение
         final String message = prepareMessage();
         // 2. Формируем адрес конечной точки.
@@ -35,11 +46,12 @@ public final class UdpSender {
      *
      * @return текстовое сообщение.
      */
-    private static String prepareMessage() {
+    private static String prepareMessage() throws IOException {
         /*
-         * TODO Реализовать метод prepareMessage класса UdpSender
+         * !TO DO Реализовать метод prepareMessage класса UdpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        String message = br.readLine();
+        return message;
     }
 
     /**
@@ -47,11 +59,13 @@ public final class UdpSender {
      *
      * @return адрес конечной точки.
      */
-    private static SocketAddress prepareAddress() {
+    private static SocketAddress prepareAddress() throws UnknownHostException {
         /*
-         * TODO Реализовать метод prepareAddress класса UdpSender
+         * !TO DO Реализовать метод prepareAddress класса UdpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        SocketAddress address = new InetSocketAddress(
+                InetAddress.getLocalHost(), UDP_PORT);
+        return address;
     }
 
     /**
@@ -62,9 +76,10 @@ public final class UdpSender {
      */
     private static DatagramSocket createSocket() throws IOException {
         /*
-         * TODO Реализовать метод createSocket класса UdpSender
+         * !TO DO Реализовать метод createSocket класса UdpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        DatagramSocket socket = new DatagramSocket();
+        return socket;
     }
 
     /**
@@ -76,9 +91,11 @@ public final class UdpSender {
      */
     private static DatagramPacket pack(String message) {
         /*
-         * TODO Реализовать метод pack класса UdpSender
+         * !TO DO Реализовать метод pack класса UdpSender
          */
-        throw new UnsupportedOperationException("Not implemented yet!");
+        byte[] buf = message.getBytes();
+        DatagramPacket packet = new DatagramPacket(buf, buf.length);
+        return packet;
     }
 
 }
